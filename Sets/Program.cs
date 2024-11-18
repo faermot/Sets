@@ -207,6 +207,51 @@ public class Set<T> : IEnumerable<T> where T : IComparable<T>
     {
         return GetEnumerator();
     }
+
+    public static Set<T> IntersectionAll(Set<T>[] sets)
+    {
+        if (sets.Length == 0)
+        {
+            return new Set<T>();
+        }
+
+        Set<T> result = new Set<T>(sets[0].ToArray());
+
+        foreach (var set in sets)
+        {
+            result = result.Intersection(set);
+        }
+
+        return result;
+    }
+
+    public void RemoveWhere(Predicate<T> condition)
+    {
+        elements.RemoveAll(condition);
+    }
+
+    public void FromCollection(IEnumerable<T> collection)
+    {
+        foreach (var item in collection)
+        {
+            Add(item);
+        }
+    }
+
+    public Set<T> Filter(Predicate<T> condition)
+    {
+        Set<T> result = new Set<T>();
+        foreach (var item in elements)
+        {
+            if (condition(item))
+            {
+                result.Add(item);
+            }
+        }
+        return result;
+    }
+
+
 }
 
 internal class Program
@@ -264,13 +309,16 @@ internal class Program
         Console.WriteLine(newSet);
 
         Console.WriteLine("\nЗадание №9");
-        // тута
+        Set<int> newSet2 = Set<int>.IntersectionAll(new Set<int>[] { setA, setB });
+        Console.WriteLine(newSet);
 
         Console.WriteLine("\nЗадание №10");
-        // тута
+        setA.RemoveWhere(x => x % 2 == 0);
+        Console.WriteLine(setA);
 
         Console.WriteLine("\nЗадание №11");
-        // тута
+        setC.FromCollection(setA);
+        Console.WriteLine(setC);
 
         Console.WriteLine("\nЗадание №12");
         if (setA.Equals(setB)) Console.WriteLine("Множества содержат одинаковые элементы");
@@ -296,6 +344,6 @@ internal class Program
         Console.WriteLine(setA);
 
         Console.WriteLine("\nЗадание №19");
-        // это
+        Console.WriteLine(setB.Filter(x => x > 3));
     }
 }
