@@ -273,7 +273,8 @@ internal class Program
         // тута
 
         Console.WriteLine("\nЗадание №12");
-        Console.WriteLine(setA.Equals(setB));
+        if (setA.Equals(setB)) Console.WriteLine("Множества содержат одинаковые элементы");
+        else Console.WriteLine("Множества содержат не одинаковые элементы");
 
         Console.WriteLine("\nЗадание №13");
         Console.WriteLine(setA.Sorted());
